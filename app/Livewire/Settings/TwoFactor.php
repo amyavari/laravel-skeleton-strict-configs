@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Settings;
 
 use Exception;
@@ -13,7 +15,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Symfony\Component\HttpFoundation\Response;
 
-class TwoFactor extends Component
+final class TwoFactor extends Component
 {
     #[Locked]
     public bool $twoFactorEnabled;
@@ -63,23 +65,6 @@ class TwoFactor extends Component
         $this->loadSetupData();
 
         $this->showModal = true;
-    }
-
-    /**
-     * Load the two-factor authentication setup data for the user.
-     */
-    private function loadSetupData(): void
-    {
-        $user = auth()->user();
-
-        try {
-            $this->qrCodeSvg = $user?->twoFactorQrCodeSvg();
-            $this->manualSetupKey = decrypt($user->two_factor_secret);
-        } catch (Exception) {
-            $this->addError('setupData', 'Failed to fetch setup data.');
-
-            $this->reset('qrCodeSvg', 'manualSetupKey');
-        }
     }
 
     /**
@@ -178,5 +163,22 @@ class TwoFactor extends Component
             'description' => __('To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app.'),
             'buttonText' => __('Continue'),
         ];
+    }
+
+    /**
+     * Load the two-factor authentication setup data for the user.
+     */
+    private function loadSetupData(): void
+    {
+        $user = auth()->user();
+
+        try {
+            $this->qrCodeSvg = $user?->twoFactorQrCodeSvg();
+            $this->manualSetupKey = decrypt($user->two_factor_secret);
+        } catch (Exception) {
+            $this->addError('setupData', 'Failed to fetch setup data.');
+
+            $this->reset('qrCodeSvg', 'manualSetupKey');
+        }
     }
 }
