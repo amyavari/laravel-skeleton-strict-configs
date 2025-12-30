@@ -1,9 +1,9 @@
-# laravel-skeleton-restrict-configs
+# laravel-skeleton-strict-configs
 
-This is a template to start a new Laravel project with a set of packages and restrictive configurations, following best practices and based on the Laravel Livewire starter kit.
+This is a template to start a new Laravel project with a set of packages and strict configurations, following best practices and based on the Laravel Livewire starter kit.
 
 * Custom Laravel configurations (see [app/Providers/AppServiceProvider](./app/Providers/AppServiceProvider.php))
-* `make:action` command for creating new action classes
+* `php artisan make:action` command for creating new action classes
 * Preconfigured `Rector`, `Pint`, and `PHPStan` to get the most out of their capabilities
   (see [rector.php](./rector.php), [pint.json](./pint.json), and [phpstan.neon](./phpstan.neon))
 * Installed `opcodesio/log-viewer` for better log tracking
