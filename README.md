@@ -1,6 +1,6 @@
 # Laravel Skeleton with Strict Configs
 
-A strict, production-ready [Laravel](https://laravel.com/docs) starter with opinionated defaults for code quality, static analysis, and maintainability — built on top of [Livewire](https://livewire.laravel.com/docs).
+A strict, production-ready [Laravel](https://laravel.com/docs) [Livewire](https://livewire.laravel.com/docs) starter with opinionated defaults for code quality, static analysis, and maintainability. Built on top of [livewire starter kit](https://github.com/laravel/livewire-starter-kit)
 
 ![PHP](https://img.shields.io/badge/PHP-^8.3-blue)
 ![Laravel](https://img.shields.io/badge/Laravel-13.x-blue)
