@@ -9,10 +9,10 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "laravel/fortify": "^1.30",
-        "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1",
+        "laravel/framework": "^13.0",
+        "laravel/tinker": "^3.0",
         "livewire/flux": "^2.9.0",
         "opcodesio/log-viewer": "^3.21"
     },
@@ -43,12 +43,12 @@
         }
     },
     "scripts": {
+        "test:unit": "pest --colors=always --coverage --parallel",
         "refactor": "rector",
         "lint": "pint",
         "test:refactor": "rector --dry-run",
         "test:lint": "pint --test",
         "test:types": "phpstan analyse --ansi --memory-limit=1G",
-        "test:unit": "pest --colors=always --coverage --parallel",
         "test:type-coverage": "pest --colors=always --type-coverage --parallel",
         "test": [
             "@test:refactor",
