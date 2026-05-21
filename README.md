@@ -24,7 +24,7 @@ A strict, production-ready [Laravel](https://laravel.com/docs) [Livewire](https:
 - Automated refactoring with [**Rector**](https://getrector.com). See [rector.php](./rector.php)
 - Consistent code style via Laravel [**Pint**](https://laravel.com/docs/13.x/pint). See [pint.json](./pint.json)
 - Full testing setup using [**Pest**](https://pestphp.com/docs).
-- Built-in [**log viewer**](https://log-viewer.opcodes.io) for debugging.
+- [**Log viewer**](https://log-viewer.opcodes.io) for debugging.
 
 ## Philosophy
 
