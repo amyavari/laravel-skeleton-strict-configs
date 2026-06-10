@@ -17,6 +17,7 @@
         "opcodesio/log-viewer": "^3.21"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^2.5",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^3.8",
         "laravel/pail": "^1.2.2",
