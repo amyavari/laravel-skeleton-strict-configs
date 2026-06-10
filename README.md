@@ -2,9 +2,11 @@
 
 A strict, production-ready [Laravel](https://laravel.com/docs) [Livewire](https://livewire.laravel.com/docs) starter with opinionated defaults for code quality, static analysis, and maintainability. Built on top of [livewire starter kit](https://github.com/laravel/livewire-starter-kit)
 
-![PHP](https://img.shields.io/badge/PHP-^8.3-blue)
-![Laravel](https://img.shields.io/badge/Laravel-13.x-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+![PHP Version](https://img.shields.io/packagist/php-v/amyavari/laravel-skeleton-strict-configs)
+![Laravel Version](https://img.shields.io/packagist/dependency-v/amyavari/laravel-skeleton-strict-configs/laravel%2Fframework?label=Laravel)
+![Packagist Version](https://img.shields.io/packagist/v/amyavari/laravel-skeleton-strict-configs?label=version)
+![Packagist Downloads](https://img.shields.io/packagist/dt/amyavari/laravel-skeleton-strict-configs)
+![Packagist License](https://img.shields.io/packagist/l/amyavari/laravel-skeleton-strict-configs)
 
 ## Tech Stack
 
@@ -39,6 +41,13 @@ This template enforces:
 ## Getting Started
 
 1. Create your project based on this template
+
+**Using Composer**
+
+```bash
+composer create-project amyavari/laravel-skeleton-strict-configs <your-project>
+cd <your-project>
+```
 
 **Using GitHub CLI**
 
