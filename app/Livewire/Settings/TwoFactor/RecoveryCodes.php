@@ -11,6 +11,9 @@ use Livewire\Component;
 
 final class RecoveryCodes extends Component
 {
+    /**
+     * @var array<string> $recoveryCodes
+     */
     #[Locked]
     public array $recoveryCodes = [];
 
