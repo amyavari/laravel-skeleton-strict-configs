@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Pest\Rector\Rules\ChainExpectCallsRector;
 use Pest\Rector\Set\PestSetList;
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\CodingStyle\Rector\Use_\SeparateMultiUseImportsRector;
@@ -41,6 +42,7 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         SeparateMultiUseImportsRector::class,
+        ChainExpectCallsRector::class,
     ])
     ->withPreparedSets(
         deadCode: true,

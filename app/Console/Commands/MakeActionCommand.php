@@ -4,26 +4,17 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Override;
 
+#[Description('Create a new action class')]
+#[Signature('make:action {name : The name of the action class}')]
 final class MakeActionCommand extends GeneratorCommand
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'make:action {name : The name of the action class}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create a new action class';
-
     /**
      * The type of class being generated.
      *
@@ -34,6 +25,7 @@ final class MakeActionCommand extends GeneratorCommand
     /**
      * Execute the console command.
      */
+    #[Override]
     public function handle(): ?bool
     {
         $actionName = $this->getNameInput();
@@ -57,6 +49,7 @@ final class MakeActionCommand extends GeneratorCommand
     /**
      * Get the desired class name from the input.
      */
+    #[Override]
     protected function getNameInput(): string
     {
         return Str::of($this->argument('name'))
@@ -72,6 +65,7 @@ final class MakeActionCommand extends GeneratorCommand
      *
      * @param  string  $rootNamespace
      */
+    #[Override]
     protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace.'\Actions';

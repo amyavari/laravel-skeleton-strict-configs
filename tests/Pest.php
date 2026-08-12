@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Tests\TestCase;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -13,8 +16,8 @@ declare(strict_types=1);
 |
 */
 
-pest()->extend(Tests\TestCase::class)
-    ->use(Illuminate\Foundation\Testing\LazilyRefreshDatabase::class)
+pest()->extend(TestCase::class)
+    ->use(LazilyRefreshDatabase::class)
     ->in('Feature');
 
 pest()->tia()
@@ -31,9 +34,7 @@ pest()->tia()
 |
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
-});
+expect()->extend('toBeOne', fn () => $this->toBe(1));
 
 /*
 |--------------------------------------------------------------------------
