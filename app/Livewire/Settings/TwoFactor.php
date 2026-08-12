@@ -139,6 +139,8 @@ final class TwoFactor extends Component
 
     /**
      * Get the current modal configuration state.
+     *
+     * @return array{'title': string, 'description': string, 'buttonText': string}
      */
     public function getModalConfigProperty(): array
     {

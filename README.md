@@ -10,10 +10,10 @@ A strict, production-ready [Laravel](https://laravel.com/docs) [Livewire](https:
 
 ## Tech Stack
 
-- PHP `8.3` or higher
+- PHP `8.4` or higher
 - Laravel `13.x`
 - Livewire `4.x`
-- Pest PHP (testing)
+- Pest PHP `5.x` (testing)
 - PHPStan (static analysis)
 - Laravel Pint (formatting)
 - Rector (automated refactoring)
@@ -66,32 +66,17 @@ git clone https://github.com/<your-username>/<your-project>.git
 cd <your-project>
 ```
 
-2. Install dependencies
+2. Setup the application
 
 ```bash
-composer install
-npm install
+composer setup
+
 ```
 
-3. Setup environment
+3. Start development
 
 ```bash
-
-cp .env.example .env
-php artisan key:generate
-```
-
-4. Run migrations
-
-```bash
-php artisan migrate
-```
-
-5. Start development
-
-```bash
-php artisan serve
-npm run dev
+composer dev
 ```
 
 ## Contributing

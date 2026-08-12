@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
+use Pest\Rector\Rules\ChainExpectCallsRector;
+use Pest\Rector\Set\PestSetList;
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
-use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
 use Rector\CodingStyle\Rector\Use_\SeparateMultiUseImportsRector;
 use Rector\Config\RectorConfig;
 use RectorLaravel\Set\LaravelSetList;
@@ -22,6 +23,7 @@ return RectorConfig::configure()
         LaravelSetList::LARAVEL_FACTORIES,
         LaravelSetList::LARAVEL_IF_HELPERS,
         LaravelSetList::LARAVEL_LEGACY_FACTORIES_TO_CLASSES,
+        PestSetList::CODING_STYLE,
     ])
     ->withImportNames(
         removeUnusedImports: true,
@@ -36,10 +38,11 @@ return RectorConfig::configure()
         __DIR__.'/bootstrap/app.php',
         __DIR__.'/database',
         __DIR__.'/public',
+        __DIR__.'/tests',
     ])
     ->withSkip([
         SeparateMultiUseImportsRector::class,
-        EncapsedStringsToSprintfRector::class,
+        ChainExpectCallsRector::class,
     ])
     ->withPreparedSets(
         deadCode: true,
