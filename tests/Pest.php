@@ -17,6 +17,9 @@ pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\LazilyRefreshDatabase::class)
     ->in('Feature');
 
+pest()->tia()
+    ->locally();
+
 /*
 |--------------------------------------------------------------------------
 | Expectations
