@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
+use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Livewire\Livewire;
 use Override;
 
 final class FortifyServiceProvider extends ServiceProvider
@@ -35,6 +37,7 @@ final class FortifyServiceProvider extends ServiceProvider
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();
+        $this->configurePasswordConfirmation();
     }
 
     /**
@@ -72,5 +75,15 @@ final class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(5)->by($throttleKey);
         });
+    }
+
+    /**
+     * Require a recent password confirmation for Livewire requests from pages that require one.
+     */
+    private function configurePasswordConfirmation(): void
+    {
+        Livewire::addPersistentMiddleware([
+            RequirePassword::class,
+        ]);
     }
 }

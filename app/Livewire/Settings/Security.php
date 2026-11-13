@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire\Settings;
 
+use App\Concerns\PasswordValidationRules;
 use Exception;
+use Flux\Flux;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
@@ -12,12 +16,24 @@ use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
-use Symfony\Component\HttpFoundation\Response;
 
-final class TwoFactor extends Component
+#[Title('Security settings')]
+final class Security extends Component
 {
+    use PasswordValidationRules;
+
+    public string $current_password = '';
+
+    public string $password = '';
+
+    public string $password_confirmation = '';
+
+    #[Locked]
+    public bool $canManageTwoFactor;
+
     #[Locked]
     public bool $twoFactorEnabled;
 
@@ -42,14 +58,41 @@ final class TwoFactor extends Component
      */
     public function mount(DisableTwoFactorAuthentication $disableTwoFactorAuthentication): void
     {
-        abort_unless(Features::enabled(Features::twoFactorAuthentication()), Response::HTTP_FORBIDDEN);
+        $this->canManageTwoFactor = Features::canManageTwoFactorAuthentication();
 
-        if (Fortify::confirmsTwoFactorAuthentication() && is_null(auth()->user()->two_factor_confirmed_at)) {
-            $disableTwoFactorAuthentication(auth()->user());
+        if ($this->canManageTwoFactor) {
+            if (Fortify::confirmsTwoFactorAuthentication() && is_null(auth()->user()->two_factor_confirmed_at)) {
+                $disableTwoFactorAuthentication(auth()->user());
+            }
+
+            $this->twoFactorEnabled = auth()->user()->hasEnabledTwoFactorAuthentication();
+            $this->requiresConfirmation = Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm');
+        }
+    }
+
+    /**
+     * Update the password for the currently authenticated user.
+     */
+    public function updatePassword(): void
+    {
+        try {
+            $validated = $this->validate([
+                'current_password' => $this->currentPasswordRules(),
+                'password' => $this->passwordRules(),
+            ]);
+        } catch (ValidationException $validationException) {
+            $this->reset('current_password', 'password', 'password_confirmation');
+
+            throw $validationException;
         }
 
-        $this->twoFactorEnabled = auth()->user()->hasEnabledTwoFactorAuthentication();
-        $this->requiresConfirmation = Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm');
+        Auth::user()->update([
+            'password' => $validated['password'],
+        ]);
+
+        $this->reset('current_password', 'password', 'password_confirmation');
+
+        Flux::toast(variant: 'success', text: __('Password updated.'));
     }
 
     /**
@@ -57,6 +100,12 @@ final class TwoFactor extends Component
      */
     public function enable(EnableTwoFactorAuthentication $enableTwoFactorAuthentication): void
     {
+        if (auth()->user()->hasEnabledTwoFactorAuthentication()) {
+            $this->twoFactorEnabled = true;
+
+            return;
+        }
+
         $enableTwoFactorAuthentication(auth()->user());
 
         if (! $this->requiresConfirmation) {
@@ -141,14 +190,14 @@ final class TwoFactor extends Component
     /**
      * Get the current modal configuration state.
      *
-     * @return array{'title': string, 'description': string, 'buttonText': string}
+     * @return array{title: string, description: string, buttonText: string}
      */
     #[Computed]
     public function modalConfig(): array
     {
         if ($this->twoFactorEnabled) {
             return [
-                'title' => __('Two-Factor Authentication Enabled'),
+                'title' => __('Two-factor authentication enabled'),
                 'description' => __('Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.'),
                 'buttonText' => __('Close'),
             ];
@@ -156,14 +205,14 @@ final class TwoFactor extends Component
 
         if ($this->showVerificationStep) {
             return [
-                'title' => __('Verify Authentication Code'),
+                'title' => __('Verify authentication code'),
                 'description' => __('Enter the 6-digit code from your authenticator app.'),
                 'buttonText' => __('Continue'),
             ];
         }
 
         return [
-            'title' => __('Enable Two-Factor Authentication'),
+            'title' => __('Enable two-factor authentication'),
             'description' => __('To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app.'),
             'buttonText' => __('Continue'),
         ];
