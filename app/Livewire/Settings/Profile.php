@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Livewire\Settings;
 
-use App\Models\User;
+use App\Concerns\ProfileValidationRules;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 final class Profile extends Component
 {
+    use ProfileValidationRules;
+
     public string $name = '';
 
     public string $email = '';
@@ -32,18 +34,11 @@ final class Profile extends Component
     {
         $user = Auth::user();
 
-        $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
+        if (config('fortify.lowercase_usernames')) {
+            $this->email = Str::lower($this->email);
+        }
 
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($user->id),
-            ],
-        ]);
+        $validated = $this->validate($this->profileRules($user->id));
 
         $user->fill($validated);
 
