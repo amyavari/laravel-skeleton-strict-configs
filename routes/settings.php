@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\Security;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function (): void {
@@ -22,3 +23,8 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
         ])
         ->name('security.edit');
 });
+
+Route::get('.well-known/passkey-endpoints', fn (): JsonResponse => response()->json([
+    'enroll' => route('security.edit'),
+    'manage' => route('security.edit'),
+]))->name('well-known.passkeys');
