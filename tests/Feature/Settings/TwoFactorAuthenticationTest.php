@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 use App\Models\User;
 use Laravel\Fortify\Features;
-use Livewire\Livewire;
+
+use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
     if (! Features::canManageTwoFactorAuthentication()) {
@@ -60,7 +61,7 @@ test('two factor authentication disabled when confirmation abandoned between req
 
     $this->actingAs($user);
 
-    $component = Livewire::test('settings.two-factor');
+    $component = livewire('settings.two-factor');
 
     $component->assertSet('twoFactorEnabled', false);
 
