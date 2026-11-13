@@ -10,6 +10,7 @@ use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -142,7 +143,8 @@ final class TwoFactor extends Component
      *
      * @return array{'title': string, 'description': string, 'buttonText': string}
      */
-    public function getModalConfigProperty(): array
+    #[Computed]
+    public function modalConfig(): array
     {
         if ($this->twoFactorEnabled) {
             return [
