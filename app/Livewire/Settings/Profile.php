@@ -6,8 +6,10 @@ namespace App\Livewire\Settings;
 
 use App\Concerns\ProfileValidationRules;
 use Flux\Flux;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -69,5 +71,21 @@ final class Profile extends Component
         $user->sendEmailVerificationNotification();
 
         Flux::toast(text: __('A new verification link has been sent to your email address.'));
+    }
+
+    #[Computed]
+    public function hasUnverifiedEmail(): bool
+    {
+        $user = Auth::user();
+
+        return $user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail();
+    }
+
+    #[Computed]
+    public function showDeleteUser(): bool
+    {
+        $user = Auth::user();
+
+        return ! $user instanceof MustVerifyEmail || $user->hasVerifiedEmail();
     }
 }
