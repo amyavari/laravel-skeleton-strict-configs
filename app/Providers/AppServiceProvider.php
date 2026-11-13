@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 use Override;
 
 final class AppServiceProvider extends ServiceProvider
@@ -34,6 +35,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureUrl();
         $this->configureDates();
         $this->configureFormRequests();
+        $this->configurePasswords();
     }
 
     /**
@@ -92,5 +94,21 @@ final class AppServiceProvider extends ServiceProvider
     private function configureFormRequests(): void
     {
         FormRequest::failOnUnknownFields();
+    }
+
+    /**
+     * Require strong passwords in production.
+     */
+    private function configurePasswords(): void
+    {
+        Password::defaults(fn (): ?Password => $this->app->environment('production')
+            ? Password::min(12)
+                ->mixedCase()
+                ->letters()
+                ->numbers()
+                ->symbols()
+                ->uncompromised()
+            : null,
+        );
     }
 }
