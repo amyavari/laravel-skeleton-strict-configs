@@ -50,16 +50,16 @@
         }
     },
     "scripts": {
-        "test:unit": "pest --colors=always --coverage --parallel",
-        "refactor": "rector",
-        "lint": "pint",
-        "test:refactor": "rector --dry-run",
-        "test:lint": "pint --test",
+        "lint": "pint -v",
+        "refactor": "rector process --ansi",
+        "test:lint": "pint --test -v",
+        "test:refactor": "rector process --dry-run --ansi",
         "test:types": "phpstan analyse --ansi --memory-limit=1G",
         "test:type-coverage": "pest --colors=always --type-coverage --parallel",
+        "test:unit": "pest --colors=always --coverage --parallel",
         "test": [
-            "@test:refactor",
             "@test:lint",
+            "@test:refactor",
             "@test:types",
             "@test:type-coverage",
             "@test:unit"
@@ -94,6 +94,15 @@
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
         ]
+    },
+    "scripts-descriptions": {
+        "lint": "Run Laravel Pint to automatically fix code style issues.",
+        "refactor": "Run Rector to automatically refactor code.",
+        "test:lint": "Run Laravel Pint to check code style without fixing issues.",
+        "test:refactor": "Run Rector to check refactor needs without fixing issues.",
+        "test:types": "Run static analysis to check for type errors in the codebase.",
+        "test:type-coverage": "Run Pest type coverage to check for missing type declarations.",
+        "test:unit": "Run tests with code coverage report using Pest."
     },
     "extra": {
         "laravel": {
