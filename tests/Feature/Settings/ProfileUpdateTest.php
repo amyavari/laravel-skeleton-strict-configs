@@ -34,7 +34,7 @@ test('profile information can be updated', function (): void {
 });
 
 test('email is stored in lowercase so the user can still log in', function (): void {
-    $user = User::factory()->withoutTwoFactor()->create();
+    $user = User::factory()->create();
 
     $this->actingAs($user);
 
