@@ -12,16 +12,20 @@ A strict, production-ready [Laravel](https://laravel.com/docs) [Livewire](https:
 
 - PHP `8.4` or higher
 - Laravel `13.x`
-- Livewire `4.x`
+- Livewire `4.x` with [Livewire Blaze](https://github.com/livewire/blaze) (faster Blade components)
+- [Vite Plus](https://viteplus.dev/guide) (frontend build)
 - Pest PHP `5.x` (testing)
 - PHPStan (static analysis)
 - Laravel Pint (formatting)
 - Rector (automated refactoring)
+- [Laravel Pao](https://github.com/laravel/pao) (agent-optimized output for testing tools)
 
 ## Features
 
 - Strict and opinionated Laravel configuration. See [app/Providers/AppServiceProvider](./app/Providers/AppServiceProvider.php)
 - Action-based architecture (`make:action` command for creating new action classes)
+- One Security page for the password, two-factor authentication and passkeys, with passkey sign-in
+- Email verification required for new users
 - Static analysis with [**PHPStan**](https://phpstan.org) (level 6). See [phpstan.neon](./phpstan.neon)
 - Automated refactoring with [**Rector**](https://getrector.com). See [rector.php](./rector.php)
 - Consistent code style via Laravel [**Pint**](https://laravel.com/docs/13.x/pint). See [pint.json](./pint.json)
