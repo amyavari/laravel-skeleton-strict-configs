@@ -1,0 +1,50 @@
+name: Formats
+
+on:
+  push:
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+    branches:
+      - main
+      - ci/test
+  pull_request:
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+
+permissions:
+  contents: read
+
+jobs:
+  formats:
+    runs-on: ubuntu-latest
+    environment: Testing
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
+        with:
+          php-version: 8.5
+          coverage: none
+
+      - name: Add Flux Credentials Loaded From ENV
+        run: composer config http-basic.composer.fluxui.dev "${{ secrets.FLUX_USERNAME }}" "${{ secrets.FLUX_LICENSE_KEY }}"
+
+      - name: Install Composer Dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Coding Style Checks
+        run: composer test:lint
+
+      - name: Code Quality Checks
+        run: composer test:refactor
+
+      - name: Type Coverage Checks
+        run: composer test:type-coverage
+
+      - name: Type Checks
+        run: composer test:types
