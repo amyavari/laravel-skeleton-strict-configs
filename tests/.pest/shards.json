@@ -1,20 +1,19 @@
 {
     "timings": {
-        "Tests\\Feature\\ArchTest": 1.4452,
-        "Tests\\Feature\\Auth\\AuthenticationTest": 0.9322,
-        "Tests\\Feature\\Auth\\EmailVerificationTest": 0.3616,
-        "Tests\\Feature\\Auth\\PasswordConfirmationTest": 0.1451,
-        "Tests\\Feature\\Auth\\PasswordResetTest": 0.553,
-        "Tests\\Feature\\Auth\\RegistrationTest": 0.2813,
-        "Tests\\Feature\\Auth\\TwoFactorChallengeTest": 0.1941,
-        "Tests\\Feature\\Commands\\MakeActionCommandTest": 0.4133,
-        "Tests\\Feature\\DashboardTest": 0.5428,
-        "Tests\\Feature\\ExampleTest": 0.1002,
-        "Tests\\Feature\\Settings\\PasswordUpdateTest": 0.7391,
-        "Tests\\Feature\\Settings\\ProfileUpdateTest": 1.3106,
-        "Tests\\Feature\\Settings\\TwoFactorAuthenticationTest": 0.6121,
-        "Tests\\Unit\\ExampleTest": 0.0122
+        "Tests\\Feature\\ArchTest": 0.3422,
+        "Tests\\Feature\\Auth\\AuthenticationTest": 0.3308,
+        "Tests\\Feature\\Auth\\EmailVerificationTest": 0.3118,
+        "Tests\\Feature\\Auth\\PasswordConfirmationTest": 0.2397,
+        "Tests\\Feature\\Auth\\PasswordResetTest": 0.3209,
+        "Tests\\Feature\\Auth\\RegistrationTest": 0.3204,
+        "Tests\\Feature\\Auth\\TwoFactorChallengeTest": 0.2717,
+        "Tests\\Feature\\Commands\\MakeActionCommandTest": 0.2361,
+        "Tests\\Feature\\DashboardTest": 0.0458,
+        "Tests\\Feature\\ExampleTest": 0.0296,
+        "Tests\\Feature\\Settings\\ProfileUpdateTest": 0.1557,
+        "Tests\\Feature\\Settings\\SecurityTest": 0.1835,
+        "Tests\\Unit\\ExampleTest": 0.011
     },
-    "checksum": "9acfd27accec3310e3c2ae2f6b54a8e3",
-    "updated_at": "2026-08-12T06:25:59+00:00"
+    "checksum": "352112956e083d02aaf4953d2957b99d",
+    "updated_at": "2026-11-13T10:46:05+00:00"
 }

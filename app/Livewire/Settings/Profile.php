@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace App\Livewire\Settings;
 
-use App\Models\User;
+use App\Concerns\ProfileValidationRules;
+use Flux\Flux;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
+#[Title('Profile settings')]
 final class Profile extends Component
 {
+    use ProfileValidationRules;
+
     public string $name = '';
 
     public string $email = '';
@@ -32,18 +38,11 @@ final class Profile extends Component
     {
         $user = Auth::user();
 
-        $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
+        if (config('fortify.lowercase_usernames')) {
+            $this->email = Str::lower($this->email);
+        }
 
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($user->id),
-            ],
-        ]);
+        $validated = $this->validate($this->profileRules($user->id));
 
         $user->fill($validated);
 
@@ -53,7 +52,7 @@ final class Profile extends Component
 
         $user->save();
 
-        $this->dispatch('profile-updated', name: $user->name);
+        Flux::toast(variant: 'success', text: __('Profile updated.'));
     }
 
     /**
@@ -71,6 +70,22 @@ final class Profile extends Component
 
         $user->sendEmailVerificationNotification();
 
-        Session::flash('status', 'verification-link-sent');
+        Flux::toast(text: __('A new verification link has been sent to your email address.'));
+    }
+
+    #[Computed]
+    public function hasUnverifiedEmail(): bool
+    {
+        $user = Auth::user();
+
+        return $user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail();
+    }
+
+    #[Computed]
+    public function showDeleteUser(): bool
+    {
+        $user = Auth::user();
+
+        return ! $user instanceof MustVerifyEmail || $user->hasVerifiedEmail();
     }
 }

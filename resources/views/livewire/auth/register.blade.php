@@ -1,4 +1,4 @@
-<x-layouts::auth>
+<x-layouts::auth :title="__('Register')">
     <div class="flex flex-col gap-6">
         <x-auth-header :title="__('Create an account')" :description="__('Enter your details below to create your account')" />
 
@@ -7,7 +7,6 @@
 
         <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-6">
             @csrf
-
             <!-- Name -->
             <flux:input
                 name="name"
@@ -39,6 +38,7 @@
                 required
                 autocomplete="new-password"
                 :placeholder="__('Password')"
+                passwordrules="{{ \Illuminate\Validation\Rules\Password::defaults()->toPasswordRulesString() }}"
                 viewable
             />
 
@@ -50,11 +50,12 @@
                 required
                 autocomplete="new-password"
                 :placeholder="__('Confirm password')"
+                passwordrules="{{ \Illuminate\Validation\Rules\Password::defaults()->toPasswordRulesString() }}"
                 viewable
             />
 
             <div class="flex items-center justify-end">
-                <flux:button type="submit" variant="primary" class="w-full">
+                <flux:button type="submit" variant="primary" class="w-full" data-test="register-user-button">
                     {{ __('Create account') }}
                 </flux:button>
             </div>
