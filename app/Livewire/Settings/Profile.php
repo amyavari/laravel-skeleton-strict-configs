@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Livewire\Settings;
 
 use App\Concerns\ProfileValidationRules;
+use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
+#[Title('Profile settings')]
 final class Profile extends Component
 {
     use ProfileValidationRules;
@@ -48,7 +50,7 @@ final class Profile extends Component
 
         $user->save();
 
-        $this->dispatch('profile-updated', name: $user->name);
+        Flux::toast(variant: 'success', text: __('Profile updated.'));
     }
 
     /**
@@ -66,6 +68,6 @@ final class Profile extends Component
 
         $user->sendEmailVerificationNotification();
 
-        Session::flash('status', 'verification-link-sent');
+        Flux::toast(text: __('A new verification link has been sent to your email address.'));
     }
 }
